@@ -3,7 +3,7 @@ import math
 import random
 import re
 
-class Chalk:
+class ChalkCli:
     """A Python package for terminal text styling and coloring."""
 
     RESET = "\033[0m"
@@ -41,35 +41,35 @@ class Chalk:
     def format_text(text, styles=None, color=None):
         style_str = "".join(styles) if styles else ""
         color_str = color if color else ""
-        return f"{style_str}{color_str}{text}{Chalk.RESET}"
+        return f"{style_str}{color_str}{text}{ChalkCli.RESET}"
 
     @staticmethod
     def colorized_banner(text, styles=None, color=None, banner_char="*"):
         banner_line = banner_char * len(text)
         banner = f"{banner_line}\n{text}\n{banner_line}"
-        return Chalk.format_text(banner, styles, color)
+        return ChalkCli.format_text(banner, styles, color)
 
     @staticmethod
     def rainbow_text(text):
         rainbow_colors = [
-            Chalk.RED, Chalk.LIGHT_RED,
-            Chalk.YELLOW, Chalk.LIGHT_YELLOW,
-            Chalk.GREEN, Chalk.LIGHT_GREEN,
-            Chalk.CYAN, Chalk.LIGHT_CYAN,
-            Chalk.BLUE, Chalk.LIGHT_BLUE,
-            Chalk.MAGENTA, Chalk.LIGHT_MAGENTA,
+            ChalkCli.RED, ChalkCli.LIGHT_RED,
+            ChalkCli.YELLOW, ChalkCli.LIGHT_YELLOW,
+            ChalkCli.GREEN, ChalkCli.LIGHT_GREEN,
+            ChalkCli.CYAN, ChalkCli.LIGHT_CYAN,
+            ChalkCli.BLUE, ChalkCli.LIGHT_BLUE,
+            ChalkCli.MAGENTA, ChalkCli.LIGHT_MAGENTA,
         ]
 
         rainbow_text = ""
         for i, char in enumerate(text):
             color = rainbow_colors[i % len(rainbow_colors)]
-            rainbow_text += Chalk.format_text(char, color=color)
+            rainbow_text += ChalkCli.format_text(char, color=color)
 
         return rainbow_text
 
     @staticmethod
     def create_table(header, data):
-        table = f"{Chalk.BOLD}{Chalk.UNDERLINE}{header}{Chalk.RESET}\n"
+        table = f"{ChalkCli.BOLD}{ChalkCli.UNDERLINE}{header}{ChalkCli.RESET}\n"
 
         for row in data:
             table += " | ".join(row) + "\n"
@@ -90,8 +90,8 @@ class Chalk:
         while True:
             for i, char in enumerate(text):
                 intensity = amplitude * math.sin(frequency * i) + amplitude + 1
-                color = Chalk.interpolate_color(Chalk.LIGHT_CYAN, Chalk.LIGHT_RED, intensity)
-                print(Chalk.format_text(char, color=color), end='', flush=True)
+                color = ChalkCli.interpolate_color(ChalkCli.LIGHT_CYAN, ChalkCli.LIGHT_RED, intensity)
+                print(ChalkCli.format_text(char, color=color), end='', flush=True)
             print('\r', end='', flush=True)
             time.sleep(0.1)
 
@@ -146,8 +146,8 @@ class Chalk:
         while True:
             for i in range(rows):
                 for j in range(columns):
-                    color = random.choice([Chalk.RED, Chalk.GREEN, Chalk.BLUE, Chalk.YELLOW, Chalk.CYAN, Chalk.MAGENTA])
-                    print(Chalk.format_text(' ', color=color), end='', flush=True)
+                    color = random.choice([ChalkCli.RED, ChalkCli.GREEN, ChalkCli.BLUE, ChalkCli.YELLOW, ChalkCli.CYAN, ChalkCli.MAGENTA])
+                    print(ChalkCli.format_text(' ', color=color), end='', flush=True)
                 print()
             time.sleep(0.2)
             print('\033[H')  # Move the cursor to the top-left corner
@@ -177,8 +177,8 @@ class Chalk:
             elapsed_time = time.time() - start_time
             if elapsed_time < fade_duration:
                 intensity = 1 - elapsed_time / fade_duration
-                color = Chalk.interpolate_color(Chalk.LIGHT_CYAN, Chalk.LIGHT_RED, intensity)
-                print(Chalk.format_text(text, color=color), end='\r', flush=True)
+                color = ChalkCli.interpolate_color(ChalkCli.LIGHT_CYAN, ChalkCli.LIGHT_RED, intensity)
+                print(ChalkCli.format_text(text, color=color), end='\r', flush=True)
             else:
                 break
 
@@ -191,8 +191,8 @@ class Chalk:
     @staticmethod
     def random_color_text(text):
         for char in text:
-            color = random.choice([Chalk.RED, Chalk.GREEN, Chalk.BLUE, Chalk.YELLOW, Chalk.CYAN, Chalk.MAGENTA])
-            print(Chalk.format_text(char, color=color), end='', flush=True)
+            color = random.choice([ChalkCli.RED, ChalkCli.GREEN, ChalkCli.BLUE, ChalkCli.YELLOW, ChalkCli.CYAN, ChalkCli.MAGENTA])
+            print(ChalkCli.format_text(char, color=color), end='', flush=True)
             time.sleep(0.1)
         print()
 
@@ -244,7 +244,7 @@ class Chalk:
                 direction = (direction + 1) % 4
                 row, col = row + directions[direction][0], col + directions[direction][1]
 
-        Chalk.print_matrix(matrix)
+        ChalkCli.print_matrix(matrix)
 
     @staticmethod
     def print_star_pattern(size=5):
@@ -319,19 +319,19 @@ class Chalk:
     def snake_game():
         """Play a simple snake game."""
         snake = [(0, 0)]
-        fruit = Chalk.generate_fruit(snake)
+        fruit = ChalkCli.generate_fruit(snake)
         direction = (1, 0)
 
         while True:
             os.system('clear' if os.name == 'posix' else 'cls')  # Clear the terminal screen
-            Chalk.draw_game_board(snake, fruit)
-            Chalk.move_snake(snake, direction)
-            if Chalk.check_collision(snake):
+            ChalkCli.draw_game_board(snake, fruit)
+            ChalkCli.move_snake(snake, direction)
+            if ChalkCli.check_collision(snake):
                 print("Game Over!")
                 break
             if snake[0] == fruit:
                 snake.append(snake[-1])  # Grow the snake
-                fruit = Chalk.generate_fruit(snake)
+                fruit = ChalkCli.generate_fruit(snake)
             time.sleep(0.1)
 
     # Helper function for generating a fruit for the snake game
@@ -350,9 +350,9 @@ class Chalk:
         for i in range(10):
             for j in range(10):
                 if (i, j) == fruit:
-                    print(Chalk.RED + 'F' + Chalk.RESET, end=' ')
+                    print(ChalkCli.RED + 'F' + ChalkCli.RESET, end=' ')
                 elif (i, j) in snake:
-                    print(Chalk.GREEN + 'S' + Chalk.RESET, end=' ')
+                    print(ChalkCli.GREEN + 'S' + ChalkCli.RESET, end=' ')
                 else:
                     print('O', end=' ')
             print()
